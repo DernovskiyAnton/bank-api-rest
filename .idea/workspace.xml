@@ -4,11 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1665c644-a50d-440d-8055-e07ecfbca716" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/repository/CardRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/bankcards/repository/TransactionRepository.java" afterDir="false" />
+    <list default="true" id="1665c644-a50d-440d-8055-e07ecfbca716" name="Changes" comment="Добавил репозитории">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/migration/changelog/changes/001-create-users-table.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/migration/changelog/changes/002-create-cards-table.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/migration/changelog/changes/003-create-transactions-table.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/migration/changelog/changes/004-create-indexes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/migration/changelog/changes/005-insert-initial-data" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/db/migration/changelog/db.changelog-master.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/bankcards/repository/README_Repository.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
