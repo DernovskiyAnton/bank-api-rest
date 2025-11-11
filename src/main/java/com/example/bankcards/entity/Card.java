@@ -41,7 +41,7 @@ public class Card {
      * Зашифрованный номер карты
      */
     @Column(name = "card_number_encrypted", nullable = false, unique = true, length = 500)
-    private String cardNumberEncrypted;
+    private String cardNumber;
 
     /**
      * Последние 4 цифры номера карты для отображения маски

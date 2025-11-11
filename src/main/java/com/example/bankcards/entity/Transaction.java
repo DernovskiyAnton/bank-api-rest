@@ -47,14 +47,14 @@ public class Transaction {
      * Карта-источник(с которой списывают деньги)
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "source_card_id", nullable = false)
+    @JoinColumn(name = "from_card_id", nullable = false)
     private Card sourceCard;
 
     /**
      * Карта-получатель(на которую зачисляются деньги)
      */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "destination_card_id", nullable = false)
+    @JoinColumn(name = "to_card_id", nullable = false)
     private Card destinationCard;
 
     @Column(nullable = false, precision = 15, scale = 2)

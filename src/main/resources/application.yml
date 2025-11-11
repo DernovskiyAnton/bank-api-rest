@@ -30,7 +30,7 @@ spring:
 
   liquibase:
     enabled: true
-    change-log: classpath:db.migration/changelog/db.changelog-master.yaml
+    change-log: classpath:db/migration/changelog/db.changelog-master.yaml
     default-schema: public
     drop-first: false
 

@@ -6,9 +6,9 @@ services:
     container_name: bank-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_DB: bankdb
+      POSTGRES_DB: bankcards_db
       POSTGRES_USER: bankuser
-      POSTGRES_PASSWORD: bankpass
+      POSTGRES_PASSWORD: bankpass123
     ports:
       - "5432:5432"
     volumes:
