@@ -11,9 +11,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
-    @Query("SELECT t FROM Transaction t WHERE t.fromCard.id = :cardId OR t.toCard.id = :cardId ORDER BY t.timestamp DESC")
+    @Query("SELECT t FROM Transaction t WHERE t.sourceCard.id = :cardId OR t.destinationCard.id = :cardId ORDER BY t.createdAt DESC")
     Page<Transaction> findByCardId(@Param("cardId") Long cardId, Pageable pageable);
 
-    @Query("SELECT t FROM Transaction t WHERE t.fromCard.user.id = :userId OR t.toCard.user.id = :userId ORDER BY t.timestamp DESC")
+    @Query("SELECT t FROM Transaction t WHERE t.sourceCard.owner.id = :userId OR t.destinationCard.owner.id = :userId ORDER BY t.createdAt DESC")
     Page<Transaction> findByUserId(@Param("userId") Long userId, Pageable pageable);
 }

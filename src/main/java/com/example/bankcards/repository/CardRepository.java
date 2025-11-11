@@ -5,17 +5,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 @Repository
 public interface CardRepository extends JpaRepository<Card, Long> {
 
-    Page<Card> findByUserId(Long userId, Pageable pageable);
+    Page<Card> findByOwner_Id(Long ownerId, Pageable pageable);
 
     Optional<Card> findByCardNumber(String cardNumber);
 
     boolean existsByCardNumber(String cardNumber);
 
-    Optional<Card> findByIdAndUserId(Long id, Long userId);
+    Optional<Card> findByIdAndOwner_Id(Long id, Long ownerId);
 }

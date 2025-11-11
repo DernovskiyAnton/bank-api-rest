@@ -1,0 +1,67 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-create-transactions-table
+      author: anton-dernovskiy
+      changes:
+
+        - createTable:
+            tableName: transactions
+            columns:
+              - column:
+                  name: id
+                  type: BIGSERIAL
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_transactions
+              - column:
+                  name: from_card_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: to_card_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount
+                  type: DECIMAL(15, 2)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: transaction_date
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: VARCHAR(255)
+
+        - addForeignKeyConstraint:
+            baseTableName: transactions
+            baseColumnNames: from_card_id
+            constraintName: fk_transactions_from_card
+            referencedTableName: cards
+            referencedColumnNames: id
+            onDelete: RESTRICT
+            onUpdate: CASCADE
+
+        - addForeignKeyConstraint:
+            baseTableName: transactions
+            baseColumnNames: to_card_id
+            constraintName: fk_transactions_to_card
+            referencedTableName: cards
+            referencedColumnNames: id
+            onDelete: RESTRICT
+            onUpdate: CASCADE
+
+        - sql:
+            sql: ALTER TABLE transactions ADD CONSTRAINT chk_different_cards CHECK (from_card_id != to_card_id)
+
+        - sql:
+            sql: ALTER TABLE transactions ADD CONSTRAINT chk_positive_amount CHECK (amount > 0)
+
+      rollback:
+        - dropTable:
+            tableName: transactions
