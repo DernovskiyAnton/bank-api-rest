@@ -24,3 +24,6 @@ application-local.properties
 # OS
 .DS_Store
 Thumbs.db
+
+.idea/workspace.xml
+.idea/shelf/
