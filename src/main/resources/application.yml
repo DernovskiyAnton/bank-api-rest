@@ -66,3 +66,7 @@ springdoc:
     enabled: true
     operations-sorter: method
     tags-sorter: alpha
+
+encryption:
+  password: ${ENCRYPTION_PASSWORD:mySecretEncryptionPasswordForDevelopment123}
+  salt: ${ENCRYPTION_SALT:a1b2c3d4e5f67890}
