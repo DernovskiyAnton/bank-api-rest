@@ -1,6 +1,5 @@
 package com.example.bankcards.service;
 
-import com.example.bankcards.dto.CreateCardRequestDto;
 import com.example.bankcards.dto.CreateUserRequestDto;
 import com.example.bankcards.dto.UserDto;
 import com.example.bankcards.entity.Role;
@@ -49,7 +48,7 @@ public class UserService {
 
     public UserDto findByUserName(String userName) {
         User user = userRepository.findByUsername(userName)
-                .orElseThrow(() -> new IllegalArgumentException("User not found with username: " + userName)));
+                .orElseThrow(() -> new IllegalArgumentException("User not found with username: " + userName));
         return mapToDto(user);
     }
 
