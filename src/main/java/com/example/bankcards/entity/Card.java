@@ -1,5 +1,6 @@
 package com.example.bankcards.entity;
 
+import com.example.bankcards.exception.InsufficientBalanceException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -159,7 +160,7 @@ public class Card {
             throw new IllegalArgumentException("Сумма должна быть положительной");
         }
         if (this.balance.compareTo(amount) < 0) {
-            throw new IllegalArgumentException("Недостаточно средств");
+            throw new InsufficientBalanceException(amount, this.balance);
         }
         this.balance = this.balance.subtract(amount);
     }
