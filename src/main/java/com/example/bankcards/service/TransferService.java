@@ -1,5 +1,6 @@
 package com.example.bankcards.service;
 
+import com.example.bankcards.dto.TransactionDto;
 import com.example.bankcards.dto.TransferRequestDto;
 import com.example.bankcards.dto.TransferResponse;
 import com.example.bankcards.entity.Card;
@@ -65,8 +66,9 @@ public class TransferService {
                 LocalDateTime.now());
     }
 
-    public Page<Transaction> getTransactionHistory(Long userId, Pageable pageable) {
-        return transactionRepository.findByUserId(userId, pageable);
+    public Page<TransactionDto> getTransactionHistory(Long userId, Pageable pageable) {
+        Page<Transaction> transactions = transactionRepository.findByUserId(userId, pageable);
+        return transactions.map(this::mapToDto);
     }
 
     private void validateTransfer(Card fromCard, Card toCard, BigDecimal amount, Long userId) {
@@ -92,5 +94,17 @@ public class TransferService {
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new InvalidTransferException("Transfer amount must be positive");
         }
+    }
+
+    private TransactionDto mapToDto(Transaction transaction) {
+        return new TransactionDto(
+                transaction.getId(),
+                transaction.getSourceCard().getId(),
+                transaction.getDestinationCard().getId(),
+                transaction.getAmount(),
+                transaction.getStatus().name(),
+                transaction.getDescription(),
+                transaction.getCreatedAt()
+        );
     }
 }
