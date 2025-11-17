@@ -48,6 +48,18 @@ public class UserService {
         return mapToDto(saved);
     }
 
+    @Transactional
+    public void deleteUser(Long id, Long currentUserId) {
+        if (!userRepository.existsById(id)) {
+            throw new IllegalArgumentException("User not found with id: " + id);
+        }
+        if (id.equals(currentUserId)) {
+            throw new IllegalArgumentException("Cannot delete yourself");
+        }
+
+        userRepository.deleteById(id);
+    }
+
     public UserDto findByUserName(String userName) {
         User user = userRepository.findByUsername(userName)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with username: " + userName));
