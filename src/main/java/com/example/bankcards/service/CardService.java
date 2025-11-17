@@ -91,6 +91,11 @@ public class CardService {
         cardRepository.deleteById(cardId);
     }
 
+    public Page<CardDto> getAllCards(Pageable pageable) {
+        Page<Card> cards = cardRepository.findAll(pageable);
+        return cards.map(this::mapToDto);
+    }
+
     private CardDto mapToDto(Card card) {
         return new CardDto(
                 card.getId(),
