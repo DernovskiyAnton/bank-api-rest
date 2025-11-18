@@ -1,105 +1,298 @@
-<h1>🚀 Разработка Системы Управления Банковскими Картами</h1>
+# Bank Cards Management System
 
-<h2>📁 Стартовая структура</h2>
-  <p>
-    Проектная структура с директориями и описательными файлами (<code>README Controller.md</code>, <code>README Service.md</code> и т.д.) уже подготовлена.<br />
-    Все реализации нужно добавлять <strong>в соответствующие директории</strong>.
-  </p>
-  <p>
-    После завершения разработки <strong>временные README-файлы нужно удалить</strong>, чтобы они не попадали в итоговую сборку.
-  </p>
-  
-<h2>📝 Описание задачи</h2>
-  <p>Разработать backend-приложение на Java (Spring Boot) для управления банковскими картами:</p>
-  <ul>
-    <li>Создание и управление картами</li>
-    <li>Просмотр карт</li>
-    <li>Переводы между своими картами</li>
-  </ul>
+REST API backend application for managing bank cards with JWT authentication, role-based access control, and secure money transfers between cards.
 
-<h2>💳 Атрибуты карты</h2>
-  <ul>
-    <li>Номер карты (зашифрован, отображается маской: <code>**** **** **** 1234</code>)</li>
-    <li>Владелец</li>
-    <li>Срок действия</li>
-    <li>Статус: Активна, Заблокирована, Истек срок</li>
-    <li>Баланс</li>
-  </ul>
+## 🚀 Tech Stack
 
-<h2>🧾 Требования</h2>
+**Backend:** Java 17, Spring Boot 3.2, Spring Security, Spring Data JPA  
+**Security:** JWT (JSON Web Tokens), BCrypt password encryption, AES card number encryption  
+**Database:** PostgreSQL 15, Liquibase migrations  
+**Tools:** Docker, Maven, Lombok  
+**Documentation:** SpringDoc OpenAPI (Swagger UI)  
+**Testing:** JUnit 5, Mockito
 
-<h3>✅ Аутентификация и авторизация</h3>
-  <ul>
-    <li>Spring Security + JWT</li>
-    <li>Роли: <code>ADMIN</code> и <code>USER</code></li>
-  </ul>
+## ✨ Features
 
-<h3>✅ Возможности</h3>
-<strong>Администратор:</strong>
-  <ul>
-    <li>Создаёт, блокирует, активирует, удаляет карты</li>
-    <li>Управляет пользователями</li>
-    <li>Видит все карты</li>
-  </ul>
+### Authentication & Authorization
+- JWT-based authentication
+- Role-based access control (USER, ADMIN)
+- Secure password hashing with BCrypt
 
-<strong>Пользователь:</strong>
-  <ul>
-    <li>Просматривает свои карты (поиск + пагинация)</li>
-    <li>Запрашивает блокировку карты</li>
-    <li>Делает переводы между своими картами</li>
-    <li>Смотрит баланс</li>
-  </ul>
+### User Management
+- User registration and authentication
+- Admin panel for user management
+- Profile information management
 
-<h3>✅ API</h3>
-  <ul>
-    <li>CRUD для карт</li>
-    <li>Переводы между своими картами</li>
-    <li>Фильтрация и постраничная выдача</li>
-    <li>Валидация и сообщения об ошибках</li>
-  </ul>
+### Card Operations
+- Create new bank cards
+- View cards with pagination
+- Block/unblock cards
+- Card number encryption (AES)
+- Masked card display (`**** **** **** 1234`)
+- Automatic expiry date validation
 
-<h3>✅ Безопасность</h3>
-  <ul>
-    <li>Шифрование данных</li>
-    <li>Ролевой доступ</li>
-    <li>Маскирование номеров карт</li>
-  </ul>
+### Money Transfers
+- Transfer money between own cards
+- Transaction history with pagination
+- Atomic transactions (rollback on failure)
+- Balance validation
+- Card status validation
 
-<h3>✅ Работа с БД</h3>
-  <ul>
-    <li>PostgreSQL или MySQL</li>
-    <li>Миграции через Liquibase (<code>src/main/resources/db/migration</code>)</li>
-  </ul>
+### Security Features
+- Encrypted card numbers in database
+- Role-based endpoint protection
+- Authorization checks (users can only access own cards)
+- Global exception handling
 
-<h3>✅ Документация</h3>
-  <ul>
-    <li>Swagger UI / OpenAPI — <code>docs/openapi.yaml</code></li>
-    <li><code>README.md</code> с инструкцией запуска</li>
-  </ul>
+## 📋 Prerequisites
 
-<h3>✅ Развёртывание и тестирование</h3>
-  <ul>
-    <li>Docker Compose для dev-среды</li>
-    <li>Liquibase миграции</li>
-    <li>Юнит-тесты ключевой бизнес-логики</li>
-  </ul>
+- **Java 17+** ([Download](https://adoptium.net/))
+- **Docker Desktop** ([Download](https://www.docker.com/products/docker-desktop/))
+- **Maven 3.8+** (included in project wrapper)
 
-<h2>📊 Оценка</h2>
-  <ul>
-    <li>Соответствие требованиям</li>
-    <li>Чистота архитектуры и кода</li>
-    <li>Безопасность</li>
-    <li>Обработка ошибок</li>
-    <li>Покрытие тестами</li>
-    <li>ООП и уровни абстракции</li>
-  </ul>
+## 🎯 Quick Start
 
-<h2>💡 Технологии</h2>
-  <p>
-    Java 17+, Spring Boot, Spring Security, Spring Data JPA, PostgreSQL/MySQL, Liquibase, Docker, JWT, Swagger (OpenAPI)
-  </p>
+### 1. Clone Repository
+```bash
+git clone <repository-url>
+cd bank_rest
+```
 
-<h2> 📤 Формат сдачи</h2>
-<p>
-Весь код и изменения принимаются только через git-репозиторий с открытым доступом к проекту. Отправка файлов в любом виде не принимается.
-  </p>
+### 2. Start PostgreSQL Database
+```bash
+docker-compose up -d
+```
+
+This will start PostgreSQL on `localhost:5432` with:
+- Database: `bankcards_db`
+- User: `bankuser`
+- Password: `bankpass123`
+
+### 3. Run Application
+```bash
+./mvnw spring-boot:run
+```
+
+Or build and run JAR:
+```bash
+./mvnw clean package
+java -jar target/bankcards-1.0.0.jar
+```
+
+Application will start on `http://localhost:8080`
+
+### 4. Access Swagger UI
+Open browser: `http://localhost:8080/swagger-ui.html`
+
+## 🔐 Test Credentials
+
+Default users are created automatically via Liquibase seed data:
+
+**Admin Account:**
+```
+Username: admin
+Password: password
+```
+
+**User Account:**
+```
+Username: testuser
+Password: password
+```
+
+## 📡 API Quick Start
+
+### 1. Register New User
+```bash
+curl -X POST http://localhost:8080/api/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "newuser",
+    "email": "newuser@example.com",
+    "password": "password123",
+    "firstName": "John",
+    "lastName": "Doe"
+  }'
+```
+
+### 2. Login
+```bash
+curl -X POST http://localhost:8080/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "username": "testuser",
+    "password": "password"
+  }'
+```
+
+Response:
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "tokenType": "Bearer",
+  "user": {
+    "id": 2,
+    "username": "testuser",
+    "email": "user@bankcards.com"
+  }
+}
+```
+
+### 3. Use Token in Requests
+```bash
+curl -X GET http://localhost:8080/api/cards \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+```
+
+For complete API documentation with all endpoints, see Swagger UI.
+
+## 🧪 Running Tests
+
+### Run All Tests
+```bash
+./mvnw test
+```
+
+### Run Specific Test Class
+```bash
+./mvnw test -Dtest=UserServiceTest
+```
+
+### Test Coverage
+- **UserService:** 8 tests (registration, CRUD, validation)
+- **CardService:** 10 tests (card operations, encryption, authorization)
+- **TransferService:** 7 tests (transfers, validation, transaction history)
+- **Total:** 25 unit tests with ~70% coverage of critical business logic
+
+## 📂 Project Structure
+```
+bank_rest/
+├── src/
+│   ├── main/
+│   │   ├── java/com/example/bankcards/
+│   │   │   ├── config/          # Security, JWT, App configuration
+│   │   │   ├── controller/      # REST API endpoints
+│   │   │   ├── dto/             # Request/Response DTOs
+│   │   │   ├── entity/          # JPA entities
+│   │   │   ├── exception/       # Custom exceptions & global handler
+│   │   │   ├── repository/      # Spring Data JPA repositories
+│   │   │   ├── security/        # JWT provider, filters, UserDetails
+│   │   │   ├── service/         # Business logic
+│   │   │   └── util/            # Encryption utilities
+│   │   └── resources/
+│   │       ├── application.yml           # Application configuration
+│   │       └── db/migration/changelog/   # Liquibase migrations
+│   └── test/
+│       └── java/com/example/bankcards/
+│           └── service/         # Service layer unit tests
+├── docker-compose.yml           # PostgreSQL setup
+├── pom.xml                      # Maven dependencies
+└── README.md
+```
+
+## 🗄️ Database Schema
+
+### Tables
+- **users** - User accounts with roles
+- **cards** - Bank cards (encrypted card numbers)
+- **transactions** - Money transfer history
+
+### Migrations
+Database schema is managed by Liquibase. Migrations run automatically on application startup.
+
+Location: `src/main/resources/db/migration/changelog/changes/`
+
+## 🔒 Security Configuration
+
+### JWT Settings
+Configure in `application.yml`:
+```yaml
+jwt:
+  secret: ${JWT_SECRET:your-secret-key}
+  expiration: 86400000  # 24 hours
+```
+
+### Card Encryption
+```yaml
+encryption:
+  password: ${ENCRYPTION_PASSWORD:your-encryption-password}
+  salt: ${ENCRYPTION_SALT:your-salt}
+```
+
+**Production:** Use environment variables instead of default values!
+
+## 🛠️ Development
+
+### Database Console
+```bash
+# Connect to PostgreSQL
+docker exec -it bank-postgres psql -U bankuser -d bankcards_db
+
+# View tables
+\dt
+
+# Query users
+SELECT * FROM users;
+```
+
+### Reset Database
+```bash
+docker-compose down -v
+docker-compose up -d
+./mvnw spring-boot:run  # Liquibase will recreate schema
+```
+
+## 📊 API Endpoints Summary
+
+### Public Endpoints
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - Login and get JWT token
+
+### User Endpoints (Requires Authentication)
+- `GET /api/cards` - Get own cards (paginated)
+- `GET /api/cards/{id}` - Get specific card
+- `POST /api/cards` - Create new card
+- `PUT /api/cards/{id}/block` - Block own card
+- `POST /api/transfers` - Transfer money between own cards
+- `GET /api/transfers/history` - Get transaction history
+
+### Admin Endpoints (Requires ADMIN Role)
+- `GET /api/cards/all` - Get all cards (all users)
+- `PUT /api/cards/{id}/activate` - Activate any card
+- `DELETE /api/cards/{id}` - Delete any card
+- `GET /api/users` - Get all users
+- `GET /api/users/{id}` - Get user by ID
+- `DELETE /api/users/{id}` - Delete user
+
+## 🎓 Architecture Highlights
+
+### Layered Architecture
+- **Controller Layer** - REST endpoints, request validation
+- **Service Layer** - Business logic, transactions
+- **Repository Layer** - Data access (Spring Data JPA)
+- **Security Layer** - JWT, authentication, authorization
+
+### Design Patterns
+- **DTO Pattern** - Separation of API contracts and entities
+- **Repository Pattern** - Data access abstraction
+- **Service Pattern** - Business logic encapsulation
+- **Builder Pattern** - Entity construction (Lombok @Builder)
+
+### Best Practices
+- Records for immutable DTOs
+- Bean Validation (Jakarta)
+- Global exception handling
+- Transaction management (@Transactional)
+- Role-based method security (@PreAuthorize)
+
+## 📝 License
+
+This project is developed as a technical assessment for a Junior Java Developer position.
+
+---
+
+**Author:** Anton Dernovskiy  
+**Java Version:** 17  
+**Spring Boot Version:** 3.2.0
+
+
