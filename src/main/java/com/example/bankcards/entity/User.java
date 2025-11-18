@@ -1,17 +1,13 @@
 package com.example.bankcards.entity;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
@@ -21,10 +17,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -55,12 +53,9 @@ public class User implements UserDetails {
     @Column(name = "last_name", length = 50)
     private String lastName;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"))
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
+    private Role role;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Card> cards = new HashSet<>();
@@ -84,48 +79,36 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.singleton(
+                new SimpleGrantedAuthority("ROLE_" + role.name())
+        );
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
-    }
-
-    /**
-     * Добавить роль пользователю.
-     */
-    public void addRole(Role role) {
-        this.roles.add(role);
-    }
-
-    /**
-     * Удалить роль у пользователя.
-     */
-    public void removeRole(Role role) {
-        this.roles.remove(role);
+        return true;
     }
 
     /**
      * Проверить, есть ли у пользователя определённая роль.
      */
     public boolean hasRole(Role role) {
-        return this.roles.contains(role);
+        return this.role == role;
     }
 
     /**

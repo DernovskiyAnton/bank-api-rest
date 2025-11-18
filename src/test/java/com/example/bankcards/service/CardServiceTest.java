@@ -60,7 +60,7 @@ class CardServiceTest {
                 .username("testuser")
                 .email("test@example.com")
                 .password("pass")
-                .roles(new HashSet<>(Set.of(Role.USER)))
+                .role(Role.USER)
                 .build();
 
         String encryptedNumber = "encrypted_1234567812345678";
@@ -123,7 +123,7 @@ class CardServiceTest {
         User user = User.builder()
                 .id(userId)
                 .username("testuser")
-                .roles(new HashSet<>(Set.of(Role.USER)))
+                .role(Role.USER)
                 .build();
 
         Card card1 = Card.builder()
@@ -169,7 +169,7 @@ class CardServiceTest {
         User user = User.builder()
                 .id(userId)
                 .username("testuser")
-                .roles(new HashSet<>(Set.of(Role.USER)))
+                .role(Role.USER)
                 .build();
 
         Card card = Card.builder()
@@ -219,7 +219,7 @@ class CardServiceTest {
         User user = User.builder()
                 .id(userId)
                 .username("testuser")
-                .roles(new HashSet<>(Set.of(Role.USER)))
+                .role(Role.USER)
                 .build();
 
         Card card = Card.builder()
