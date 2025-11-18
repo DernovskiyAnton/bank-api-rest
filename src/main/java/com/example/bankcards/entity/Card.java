@@ -51,7 +51,7 @@ public class Card {
     private String lastFourDigits;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User owner;
 
     @Column(name = "cardholder_name", nullable = false, length = 100)
