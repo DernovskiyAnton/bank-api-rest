@@ -58,7 +58,7 @@ class UserServiceTest {
                 .password(encodedPassword)
                 .firstName(request.firstName())
                 .lastName(request.lastName())
-                .roles(new HashSet<>(Set.of(Role.USER)))
+                .role(Role.USER)
                 .build();
 
         when(userRepository.existsByUsername(request.username())).thenReturn(false);
@@ -141,7 +141,7 @@ class UserServiceTest {
                 .password("encodedPassword")
                 .firstName("Test")
                 .lastName("User")
-                .roles(new HashSet<>(Set.of(Role.USER)))
+                .role(Role.USER)
                 .build();
 
         when(userRepository.findById(userId)).thenReturn(Optional.of(user));
@@ -212,7 +212,7 @@ class UserServiceTest {
                 .username("user1")
                 .email("user1@example.com")
                 .password("pass")
-                .roles(new HashSet<>(Set.of(Role.USER)))
+                .role(Role.USER)
                 .build();
 
         User user2 = User.builder()
@@ -220,7 +220,7 @@ class UserServiceTest {
                 .username("user2")
                 .email("user2@example.com")
                 .password("pass")
-                .roles(new HashSet<>(Set.of(Role.ADMIN)))
+                .role(Role.ADMIN)
                 .build();
 
         Page<User> userPage = new PageImpl<>(List.of(user1, user2), pageable, 2);

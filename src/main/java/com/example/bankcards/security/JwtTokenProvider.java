@@ -39,14 +39,12 @@ public class JwtTokenProvider {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationMs);
 
-        List<String> roles = user.getRoles().stream()
-                .map(Role::name)
-                .collect(Collectors.toList());
+        String role = user.getRole().name();
 
         return Jwts.builder()
                 .subject(user.getUsername())
                 .claim("userId", user.getId())
-                .claim("roles", roles)
+                .claim("role", role)
                 .issuedAt(now)
                 .expiration(expiryDate)
                 .signWith(key)
@@ -63,32 +61,26 @@ public class JwtTokenProvider {
         return claims.get("userId", Long.class);
     }
 
-    @SuppressWarnings("unchecked")
-    public List<String> getRolesFromToken(String token) {
+    public String getRoleFromToken(String token) {
         Claims claims = parseToken(token);
-        return claims.get("roles", List.class);
+        return claims.get("role", String.class);
     }
 
-    public boolean validateToken(String token) {
-        try {
-            parseToken(token);
-            return true;
-        } catch (Exception e) {
-            log.error("JWT validation error: {}", e.getMessage());
-            return false;
+        public boolean validateToken (String token){
+            try {
+                parseToken(token);
+                return true;
+            } catch (Exception e) {
+                log.error("JWT validation error: {}", e.getMessage());
+                return false;
+            }
+        }
+
+        private Claims parseToken (String token){
+            return Jwts.parser()
+                    .verifyWith(key)
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
         }
     }
-
-    private Claims parseToken(String token){
-        return Jwts.parser()
-                .verifyWith(key)
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
-    }
-
-
-
-
-
-}

@@ -40,7 +40,7 @@ public class UserService {
                 .password(passwordEncoder.encode(request.password()))
                 .firstName(request.firstName())
                 .lastName(request.lastName())
-                .roles(new HashSet<>(Set.of(Role.USER)))
+                .role(Role.USER)
                 .build();
 
         User saved = userRepository.save(user);
