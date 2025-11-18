@@ -1,8 +1,15 @@
 package com.example.bankcards.controller;
 
 import com.example.bankcards.dto.UserDto;
+import com.example.bankcards.exception.ErrorResponse;
 import com.example.bankcards.security.CustomUserDetails;
 import com.example.bankcards.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,31 +27,56 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
+@Tag(name = "Users (Admin)", description = "User management endpoints. Admin only.")
 public class UserController {
 
     private final UserService userService;
 
-    /**
-     * ADMIN: Получить всех пользователей с пагинацией
-     */
+    @Operation(
+            summary = "Get all users (Admin)",
+            description = "Retrieve paginated list of all users in the system. Admin only."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Users retrieved successfully"),
+            @ApiResponse(responseCode = "403", description = "Access denied - Admin role required",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
     @GetMapping
     public ResponseEntity<Page<UserDto>> getAllUsers(Pageable pageable) {
         Page<UserDto> users = userService.getAllUsers(pageable);
         return ResponseEntity.ok(users);
     }
 
-    /**
-     * ADMIN: Получить пользователя по ID
-     */
+    @Operation(
+            summary = "Get user by ID (Admin)",
+            description = "Retrieve specific user details by ID. Admin only."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User found"),
+            @ApiResponse(responseCode = "404", description = "User not found",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "403", description = "Access denied - Admin role required",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
         UserDto user = userService.findById(id);
         return ResponseEntity.ok(user);
     }
 
-    /**
-     * ADMIN: Удалить пользователя
-     */
+    @Operation(
+            summary = "Delete user (Admin)",
+            description = "Permanently delete user from system. Cannot delete yourself. Admin only."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "User deleted successfully"),
+            @ApiResponse(responseCode = "400", description = "Cannot delete yourself",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "404", description = "User not found",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "403", description = "Access denied - Admin role required",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         Long currentUserId = getCurrentUserId();
