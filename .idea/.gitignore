@@ -1,0 +1,29 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Gradle
+.gradle/
+build/
+
+# Spring Boot
+*.log
+spring.log
+
+# Sensitive data
+application-local.yml
+application-local.properties
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+.idea/workspace.xml
+.idea/shelf/

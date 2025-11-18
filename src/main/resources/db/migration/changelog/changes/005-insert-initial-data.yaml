@@ -1,0 +1,88 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005-insert-initial-data
+      author: anton-dernovskiy
+      changes:
+
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: admin
+              - column:
+                  name: email
+                  value: admin@bankcards.com
+              - column:
+                  name: password_hash
+                  value: $2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy
+              - column:
+                  name: role
+                  value: ADMIN
+
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: testuser
+              - column:
+                  name: email
+                  value: user@bankcards.com
+              - column:
+                  name: password_hash
+                  value: $2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi
+              - column:
+                  name: role
+                  value: USER
+
+        - insert:
+            tableName: cards
+            columns:
+              - column:
+                  name: card_number_encrypted
+                  value: encrypted_4532123456789012
+              - column:
+                  name: card_holder_name
+                  value: TEST USER
+              - column:
+                  name: expiry_date
+                  value: 2027-12-31
+              - column:
+                  name: status
+                  value: ACTIVE
+              - column:
+                  name: balance
+                  value: 5000.00
+              - column:
+                  name: user_id
+                  valueComputed: (SELECT id FROM users WHERE username = 'testuser')
+
+        - insert:
+            tableName: cards
+            columns:
+              - column:
+                  name: card_number_encrypted
+                  value: encrypted_5412345678901234
+              - column:
+                  name: card_holder_name
+                  value: TEST USER
+              - column:
+                  name: expiry_date
+                  value: 2026-06-30
+              - column:
+                  name: status
+                  value: ACTIVE
+              - column:
+                  name: balance
+                  value: 3000.00
+              - column:
+                  name: user_id
+                  valueComputed: (SELECT id FROM users WHERE username = 'testuser')
+
+      rollback:
+        - delete:
+            tableName: cards
+        - delete:
+            tableName: users
+            where: username IN ('admin', 'testuser')
